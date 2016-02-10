@@ -1,0 +1,5 @@
+<!ENTITY zotexmacs.cite "Cite in TeXmacs">
+<!ENTITY zotexmacs.settings "Settings...">
+<!ENTITY zotexmacs.about "About...">
+<!ENTITY zotexmacs.update-texmacs-db "Update TeXmacs database">
+<!ENTITY zotexmacs.get-texmacs-db "Update from TeXmacs database">
