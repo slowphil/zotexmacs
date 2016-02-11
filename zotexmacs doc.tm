@@ -14,7 +14,7 @@
   <name|Zotero>.>>
 
   <name|Zotexmacs> is a very simple tool that eases referencing articles in
-  <TeXmacs> when your bibilographic database is handled by <name|Zotero>.
+  <TeXmacs> when your bibliographic database is handled by <name|Zotero>.
 
   With <name|Zotexmacs> you no longer have to know, guess, or look up what is
   the citation key of <em|that> article you want to cite. From within a
