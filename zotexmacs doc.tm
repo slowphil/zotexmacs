@@ -31,14 +31,14 @@
   or Safari) is already installed on your system. If not visit Zotero website
   and install it.
 
-  <paragraph|Getting the Zotexmacs extension>
+  <paragraph|Getting Zotexmacs>
 
   The <name|Zotexmacs> extension is distributed as a signed .xpi file. You
   can get it either at <verbatim|addons.mozilla.org> or at
   <verbatim|https://github.com/slowphil/zotexmacs/raw/master/zotexmacs-XX-signed.xpi>
-  (together with it's source).
+  (You can find the source there too).
 
-  <paragraph|Installing the Zotexmacs extension>
+  <paragraph|Installing Zotexmacs>
 
   <\itemize>
     <item>Zotero as Firefox plugin
@@ -53,9 +53,10 @@
     popup menu under the \Pgear\Q icon and select <menu|install from file...>
   </itemize>
 
-  and navigate to the xpi file. Although the extension was signed by Mozilla,
-  you may receive a warning that the identity of creator of the extension
-  cannot be confirmed.
+  and navigate to the xpi file. Note that even though the extension was
+  signed by Mozilla, you may receive a warning that the identity of creator
+  of the extension cannot be confirmed. The unsigned version available on
+  <name|Github> cannot be installed on standard Firefox releases.
 
   <section*|Recommended <name|Zotero> settings>
 
@@ -64,25 +65,26 @@
   Among others things <name|Better BibTeX> enables full control over the
   format of the citation key, automated updating of <BibTeX> files...
 
-  <name|Zotero> should be configured (<menu|Preferences|Export|Format>) to
-  export Bibtex (or Better Bibtex) format.
+  <name|Zotero> should be configured (<menu|Gear
+  icon|Preferences|Export|Format>) to export Bibtex (or Better Bibtex)
+  format.
 
-  If you use Better Bibtex, the following preferences are suggested (see
-  Better Bibtex online documentation for more details):
+  If you use <name|Better BibTeX>, the following preferences are suggested
+  (see <name|Better BibTeX> online documentation for more details):
 
-  <menu|Citation key format> : whatever suits you! [zotero] means a key of
-  the form FirstAuthorLastName_FirstTitleWord_Year_OptionalDisambiguationDigit
+  <menu|Citation key format> : whatever suits you! <verbatim|[zotero]> means
+  a key of the form FirstAuthorLastName_FirstTitleWord_Year_OptionalDisambiguationDigit
 
   Check <menu|Force citation key to ASCII>
 
-  Pining of citation keys: by default, Zotero and Better BibTex create the
-  citation keys on-the-fly while exporting Bibtex files, using a predefined
-  scheme (see above). In some instances two articles may have the same
-  citation key, or citation keys may change (after correcting a typo, for
-  instance) leading to inconsitencies between already inserted citation keys
-  and the updated bibtex file. In order to settle such cases Better Bibtex
-  enables \Ppining\Q (making them fixed) citation keys by adding a \Pbibtex:
-  citekey\Q in the \Pextra\Q field of the reference.
+  Pining of citation keys: by default, <name|Zotero> and <name|Better BibTex>
+  create the citation keys on-the-fly while exporting Bibtex files, using a
+  predefined scheme (see above). In some instances two articles may have the
+  same citation key, or citation keys may change (after correcting a typo,
+  for instance) leading to inconsitencies between already inserted citation
+  keys and the updated bibtex file. In order to settle such cases Better
+  Bibtex enables \Ppining\Q (making them fixed) citation keys by adding a
+  \Pbibtex: citekey\Q in the \Pextra\Q field of the reference.
 
   In <menu|fields to omit> you may enter: <verbatim|abstract, file> (to keep
   the bibtex files lean).\ 
@@ -122,9 +124,9 @@
   within <TeXmacs> by activating the <menu|Tools|Developper tools> menu and
   then using the <menu|Developer|Open my-init-texmacs.scm>
 
-  On the Zotero side, the extension consists of javascript code that handles
-  the socket connection, and formatting the messages. It could easily be
-  extended for performing more complex tasks.
+  On the <name|Zotero> side, the extension consists of javascript code that
+  handles the socket connection, and formatting the messages. It could easily
+  be extended for performing more complex tasks.
 
   \;
 </body>
