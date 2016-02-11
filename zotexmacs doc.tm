@@ -35,7 +35,8 @@
 
   The <name|Zotexmacs> extension is distributed as a signed .xpi file. You
   can get it either at <verbatim|addons.mozilla.org> or at
-  <verbatim|github.com/slowphil/zotexmacs> (together with it's source).
+  <verbatim|https://github.com/slowphil/zotexmacs/raw/master/zotexmacs-XX-signed.xpi>
+  (together with it's source).
 
   <paragraph|Installing the Zotexmacs extension>
 
@@ -43,15 +44,13 @@
     <item>Zotero as Firefox plugin
 
     In Firefox enter \Pabout:addons\Q in the search bar (or use the
-    tools/addon menu), then open the popup menu under the toothed wheel icon
-    and select \Pinstall from file...\Qn Firefox enter \Pabout:addons\Q in
-    the search bar (or use the Tools/addon menu), then open the popup menu
-    under the toothed wheel icon and select \Pinstall from file...\Q
+    <menu|Tools|Add-ons> menu), then open the popup menu under the \Pgear\Q
+    icon and select <menu|install from file...>
 
     <item>Zotero Standalone
 
-    In Zotero standalone open the Tools/addon menu, then open the popup menu
-    under the toothed wheel icon and select \Pinstall from file...\Q
+    In Zotero standalone open the <menu|Tools|Add-ons> menu, then open the
+    popup menu under the \Pgear\Q icon and select <menu|install from file...>
   </itemize>
 
   and navigate to the xpi file. Although the extension was signed by Mozilla,
@@ -65,16 +64,16 @@
   Among others things <name|Better BibTeX> enables full control over the
   format of the citation key, automated updating of <BibTeX> files...
 
-  <name|Zotero> should be configured (preferences/export/format) to export
-  Bibtex (or Better Bibtex) format.
+  <name|Zotero> should be configured (<menu|Preferences|Export|Format>) to
+  export Bibtex (or Better Bibtex) format.
 
   If you use Better Bibtex, the following preferences are suggested (see
   Better Bibtex online documentation for more details):
 
-  Citation key format : whatever suits you! [zotero] means a key of the form
-  FirstAuthorLastName_FirstTitleWord_Year_OptionalDisambiguationDigit
+  <menu|Citation key format> : whatever suits you! [zotero] means a key of
+  the form FirstAuthorLastName_FirstTitleWord_Year_OptionalDisambiguationDigit
 
-  Check \PForce citation key to ASCII\Q
+  Check <menu|Force citation key to ASCII>
 
   Pining of citation keys: by default, Zotero and Better BibTex create the
   citation keys on-the-fly while exporting Bibtex files, using a predefined
@@ -85,16 +84,16 @@
   enables \Ppining\Q (making them fixed) citation keys by adding a \Pbibtex:
   citekey\Q in the \Pextra\Q field of the reference.
 
-  In \Pfields to omit\Q you may enter: <verbatim|abstract, file> (to keep the
-  bibtex files lean).\ 
+  In <menu|fields to omit> you may enter: <verbatim|abstract, file> (to keep
+  the bibtex files lean).\ 
 
-  Do not check \PExport Bibtex as ASCII\Q as this would likely cause problems
-  with non-latin or accented characters.
+  Do not check <menu|Export Bibtex as ASCII> as this would likely cause
+  problems with non-latin or accented characters.
 
-  Check \PRetain LaTeX markup on BibTeX import\Q if you plan to import bibtex
-  files from TeXmacs.
+  Check <menu|Retain LaTeX markup on BibTeX import> if you plan to import
+  bibtex files from TeXmacs.
 
-  Use \Pautomatic export\Q to keep the bibtexfile up-to-date when adding
+  Use <menu|automatic export> to keep the bibtex file up-to-date when adding
   references.
 
   \;
@@ -112,14 +111,16 @@
   <\itemize>
     <item>it runs in server mode, listening for incomming connections
 
-    <item>it accepts Zotexmacs logging in and understands the \Premote-cite\Q
-    command.
+    <item>it accepts Zotexmacs logging in and understands the
+    <menu|remote-cite> command.
   </itemize>
 
   The necessary configuration is done by adding to <verbatim|<extern|(lambda
   (x) (url-concretize "$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm"))|>> the
-  content of the file <verbatim|place_in_my-init-texmacs.tm> available
-  at<verbatim| github.com/slowphil/zotexmacs>.
+  content of the file <verbatim|place_in_my-init-texmacs.scm> available
+  at<verbatim| github.com/slowphil/zotexmacs>. This can be done simply from
+  within <TeXmacs> by activating the <menu|Tools|Developper tools> menu and
+  then using the <menu|Developer|Open my-init-texmacs.scm>
 
   On the Zotero side, the extension consists of javascript code that handles
   the socket connection, and formatting the messages. It could easily be

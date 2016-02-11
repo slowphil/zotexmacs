@@ -1,5 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// MODULE      : Zotexmacs
+// DESCRIPTION : Extension enabling Zotero to interact with GNU TeXmacs
+// COPYRIGHT   : (C) 2016 Philippe Joyez
+//
+// This software falls under the GNU general public license version 3 or later.
+// It comes WITHOUT ANY WARRANTY WHATSOEVER. For details, see the file LICENSE
+// in the root directory or <http://www.gnu.org/licenses/gpl-3.0.html>.
+//
+///////////////////////////////////////////////////////////////////////////////
 // Credits:
-// - small bits were borrowed from Lyz
+// - small bits were borrowed from the Lyz Zotero extension
 
 Zotero.zotexmacs = {
 
@@ -223,7 +234,6 @@ Zotero.zotexmacs = {
 		var res, fre, fname;
 		var win = this.wm.getMostRecentWindow("navigator:browser");
 		res = this.ask_texmacs("remote-get-buffer");
-		//res = this.lyxAskServer("server-get-filename");
 		if (!res) {
 			win.alert("Could not contact TeXmacs ");
 			return null;
@@ -234,14 +244,11 @@ Zotero.zotexmacs = {
 			win.alert("ERROR: tm_GetDoc: \n\n" + res);
 			return null;
 		}
-		//return fname[1];
 		return fname;
 	},
 
 
 	tm_GetPos : function() {
-		//res = this.lyxAskServer("server-get-xy");
-		//var xy = /INFO:lyz:server-get-xy:(.*)/.exec(res)[1];
 		xy = this.ask_texmacs("remote-get-cursor-pos");
 		return xy;
 	},
