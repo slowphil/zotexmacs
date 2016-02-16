@@ -12,7 +12,7 @@
         (begin (display "starting server\n")
                (server-start))
         (begin (display "found local server\n")(client-stop srv) ;; other instance already running
-           (server-start)(server-stop)) ;; FIXME : stupid but otherwise tm-service is not defined, causing problems below
+           (server-start)(server-stop)) ;; FIXME : stupid but otherwise server-related stuff is not defined, causing problems below
         ))
 )
 
