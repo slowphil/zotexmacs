@@ -1,7 +1,6 @@
 (display "running my-init-texmacs\n")
 
 (define-preferences   ("zotero-server" #t noop))
-(server-set-user-information "zotero" "zotero-remote-cite" "zotero" "" "no")
 
 
 ;; Do (server-start) automatically at boot-up if preferences are set so
@@ -16,6 +15,8 @@
            (server-start)(server-stop)) ;; FIXME : stupid but otherwise tm-service is not defined, causing problems below
         ))
 )
+
+(server-set-user-information "zotero" "zotero-remote-cite" "zotero" "" "no")
 
 ;; define service that zotexmacs uses
 
