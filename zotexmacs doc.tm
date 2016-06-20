@@ -3,13 +3,6 @@
 <style|tmdoc>
 
 <\body>
-  <\hide-preamble>
-    <assign|hlink2|<macro|label|target|<action|<arg|label|>|<extern|(lambda
-    (x) (ext-hlink|<quote-arg|target>>>>>
-
-    \;
-  </hide-preamble>
-
   <doc-data|<doc-title|<name|ZoTeXmacs>: Using <TeXmacs> with
   <name|Zotero>.>>
 
@@ -22,14 +15,19 @@
   <inactive|<cite|>> tag for the selected items into the currently active
   <TeXmacs> document.\ 
 
-  Technically <name|Zotexmacs> is a <name|Zotero> extension. Below we explain
-  how to install this extension and configure <TeXmacs> to work with it.
+  Technically <name|Zotexmacs> is a <name|Zotero> extension. <name|Zotexmacs>
+  does not change the way <TeXmacs> handles bibliography; your documents
+  produced with the help of <name|Zotexmacs> are plain <TeXmacs> documents
+  which can be used even in absence of <name|Zotero>.
+
+  Below we explain how to install this extension and configure <TeXmacs> to
+  work with it.
 
   <section*|Installation>
 
   We assume Zotero (Firefox plugin or Standalone version for use with Chrome
-  or Safari) is already installed on your system. If not visit Zotero website
-  and install it.
+  or Safari) is already installed on your system. If not, visit Zotero
+  website and install it.
 
   <paragraph|Getting Zotexmacs>
 
@@ -58,6 +56,46 @@
   of the extension cannot be confirmed. The unsigned version available on
   <name|Github> cannot be installed on standard Firefox releases.
 
+  <paragraph*|Configure <TeXmacs> for working with Zotexmacs>
+
+  <TeXmacs> needs to be configured for communicating with Zotexmacs. This is
+  done by adding the content of the file <verbatim|place_in_my-init-texmacs.scm>
+  available at<verbatim| github.com/slowphil/zotexmacs> to the user's
+  initialization file <verbatim|$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm>.
+
+  This user's initialization file can be accessed simply from within
+  <TeXmacs> by activating the <menu|Tools|Developper tools> menu and then
+  using the <menu|Developer|Open my-init-texmacs.scm> menu item. Then, paste
+  the content of the file on GitHub, save and restart <TeXmacs>. If this does
+  not work see \PTechnical details\Q, below.
+
+  <section*|Using <name|Zotero> with <TeXmacs> and <name|Zotexmacs>>
+
+  <name|Zotexmacs> does not change the way <TeXmacs> handles bibliography.
+
+  Basically, from Zotero you export a \Pcollection\Q as a <BibTeX> file, and
+  you create a bibliography in a <TeXmacs> document by inserting a
+  <inactive|<bibliography||||>> tag (<menu|Edit|Automatic|Bibliography...>)
+  which points to that <BibTeX> file. For more details see <hlink|Compiling a
+  bibliography|/usr/local/share/TeXmacs/doc/main/links/man-bibliography.en.tm>.
+
+  The only small thing <name|Zotexmacs> does is a the moment you want place a
+  call to a bibliographic item in a <TeXmacs> document: instead of using
+  <menu|Insert|Link|Citation> and typing the key(s) of the item(s) you want
+  to cite, you should
+
+  <\itemize-minus>
+    <item>switch to the <name|Zotero> window (or display the <name|Zotero>
+    pane in Firefox)
+
+    <item>select the item(s) you want to cite
+
+    <item>click on the Zotexmacs button (or right-click and select cite in
+    Texmacs)
+
+    <item>finally \ switch back to Texmacs' window
+  </itemize-minus>
+
   <section*|Recommended <name|Zotero> settings>
 
   Although it is possible to use <name|Zotexmacs> with plain <name|Zotero>,
@@ -81,7 +119,7 @@
   create the citation keys on-the-fly while exporting Bibtex files, using a
   predefined scheme (see above). In some instances two articles may have the
   same citation key, or citation keys may change (after correcting a typo,
-  for instance) leading to inconsitencies between already inserted citation
+  for instance) leading to inconsistencies between already inserted citation
   keys and the updated bibtex file. In order to settle such cases Better
   Bibtex enables \Ppining\Q (making them fixed) citation keys by adding a
   \Pbibtex: citekey\Q in the \Pextra\Q field of the reference.
@@ -100,10 +138,6 @@
 
   \;
 
-  <name|Zotexmacs> makes no choice regarding how texmacs handles the
-  bibliographic items: it is the user's choice to have <TeXmacs> database
-  either \Pmirroring\Q <name|Zotero>'s or simply disabled.
-
   <section*|Technical details>
 
   <name|Zotexmacs> communicates with <TeXmacs> through internal network
@@ -111,28 +145,34 @@
   and <TeXmacs> needs to be configured such that:
 
   <\itemize>
-    <item>it runs in server mode, listening for incomming connections
+    <item>it runs in server mode, listening for incoming connections
 
     <item>it accepts Zotexmacs logging in and understands the
     <menu|remote-cite> command.
   </itemize>
 
-  The necessary configuration is done by adding to <verbatim|<extern|(lambda
-  (x) (url-concretize "$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm"))|>> the
-  content of the file <verbatim|place_in_my-init-texmacs.scm> available
-  at<verbatim| github.com/slowphil/zotexmacs>. This can be done simply from
-  within <TeXmacs> by activating the <menu|Tools|Developper tools> menu and
-  then using the <menu|Developer|Open my-init-texmacs.scm>
+  The necessary configuration is done by adding to the user's initialization
+  file <verbatim|$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm>. The exact
+  location of the file depends on your OS and can be obtained by executing
+  the scheme command below (place the cursor on that line and press enter, or
+  click the \PGo\Q button)
+
+  <\session|scheme|default>
+    <\folded-io|Scheme] >
+      (url-concretize "$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm")
+    <|folded-io>
+      \;
+    </folded-io>
+  </session>
 
   On the <name|Zotero> side, the extension consists of javascript code that
   handles the socket connection, and formatting the messages. It could easily
   be extended for performing more complex tasks.
-
-  \;
 </body>
 
 <\initial>
   <\collection>
+    <associate|index-enabled|false>
     <associate|preamble|false>
   </collection>
 </initial>
