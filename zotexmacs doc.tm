@@ -151,11 +151,14 @@
     <menu|remote-cite> command.
   </itemize>
 
-  The necessary configuration is done by adding to the user's initialization
-  file <verbatim|$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm>. The exact
-  location of the file depends on your OS and can be obtained by executing
-  the scheme command below (place the cursor on that line and press enter, or
-  click the \PGo\Q button)
+  The necessary configuration is done by commands written in
+  <verbatim|scheme> (the scripting language TeXmacs uses for many things. See
+  <hlink|<scheme> extension language|/usr/local/share/TeXmacs/doc/main/scheme/man-guile-intro.en.tm>)
+  placed in the user's initialization file
+  <verbatim|$TEXMACS_HOME_PATH/progs/my-init-texmacs.scm>. The exact location
+  of that file depends on your OS and can be obtained by executing the
+  <verbatim|scheme> command below (place the cursor on that line and press
+  enter, or click the \PGo\Q button)
 
   <\session|scheme|default>
     <\folded-io|Scheme] >
