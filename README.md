@@ -7,7 +7,7 @@ With Zotexmacs you no longer have to know, guess, or look up what is the citatio
 You need both [Texmacs](http://www.texmacs.org) and [Zotero](https://www.zotero.org/) already installed.
 
 #Short doc 
-Install the "zotexmacs-XX-signed.xpi" file in Firefox (or Zotero standalone) and add the content of the file "place in my-init-texmacs.scm" in the file $TEXMACS_HOME_PATH/progs/my-init-texmacs.scm ($TEXMACS_HOME_PATH is the user's Texmacs settings folder whose exact location depends on your OS - see "More doc"). After restarting both Firefox and TeXmacs, Zotexmacs should work.
+Install the released ["zotexmacs-XX-signed.xpi"](https://github.com/slowphil/zotexmacs/releases/latest) file in Firefox (or Zotero standalone) and add the content of the file "place in my-init-texmacs.scm" in the file $TEXMACS_HOME_PATH/progs/my-init-texmacs.scm ($TEXMACS_HOME_PATH is the user's Texmacs settings folder whose exact location depends on your OS - see "More doc"). After restarting both Firefox and TeXmacs, Zotexmacs should work.
 
 #More doc 
 Open "zotexmacs doc.tm" in TeXmacs.
