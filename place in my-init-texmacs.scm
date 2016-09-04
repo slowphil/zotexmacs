@@ -2,10 +2,6 @@
 
 (define-preferences   ("zotero-server" #t noop))
 
-
-;; Do (server-start) automatically at boot-up if preferences are set so
-;; to enable incoming connections
-
 (if (get-preference "zotero-server")
   (begin 
 ;; Do (server-start) automatically at boot-up if preferences are set so
