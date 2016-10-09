@@ -65,7 +65,8 @@
 
   This user's initialization file can be accessed simply from within
   <TeXmacs> by activating the <menu|Tools|Developper tools> menu and then
-  using the <menu|Developer|Open my-init-texmacs.scm> menu item. Then, paste
+  using the <menu|Developer|Open my-init-texmacs.scm> menu item. Then, "paste
+  from... verbatim" (IMPORTANT: do not use plain "paste")
   the content of the file on GitHub, save and restart <TeXmacs>. If this does
   not work see \PTechnical details\Q, below.
 
