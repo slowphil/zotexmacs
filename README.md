@@ -6,7 +6,7 @@ With Zotexmacs you no longer have to know, guess, or look up what is the citatio
 #Requirements
 Zotexmacs works on any OS. You'll need both [Texmacs](http://www.texmacs.org) and [Zotero](https://www.zotero.org/) already installed. 
 
-Note that presently (Sept. 2016) Zotexmacs does not work with the upcoming Zotero 5.0 currently in beta; I will try to fix this when Zotero 5 gets released (but it is unclear whether BetterBibTeX will be made compatible).
+Zotexmacs is compatible with the upcoming Zotero 5.0 currently in beta.
 
 #Short doc 
 Install the released ["zotexmacs-XX-signed.xpi"](https://github.com/slowphil/zotexmacs/releases/latest) file in Firefox (or Zotero standalone) and add the content of the file "place in my-init-texmacs.scm" in the file $TEXMACS_HOME_PATH/progs/my-init-texmacs.scm ($TEXMACS_HOME_PATH is the user's Texmacs settings folder whose exact location depends on your OS - see "More doc"). After restarting both Firefox and TeXmacs, Zotexmacs should work.
