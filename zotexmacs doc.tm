@@ -1,4 +1,4 @@
-<TeXmacs|1.99.4>
+<TeXmacs|1.99.5>
 
 <style|tmdoc>
 
@@ -66,9 +66,9 @@
   This user's initialization file can be accessed simply from within
   <TeXmacs> by activating the <menu|Tools|Developper tools> menu and then
   using the <menu|Developer|Open my-init-texmacs.scm> menu item. Then, "paste
-  from... verbatim" (IMPORTANT: do not use plain "paste")
-  the content of the file on GitHub, save and restart <TeXmacs>. If this does
-  not work see \PTechnical details\Q, below.
+  from... verbatim" (IMPORTANT: do not use plain "paste") the content of the
+  file on GitHub, save and restart <TeXmacs>. If this does not work see
+  \PTechnical details\Q, below.
 
   <section*|Using <name|Zotero> with <TeXmacs> and <name|Zotexmacs>>
 
@@ -80,10 +80,10 @@
   which points to that <BibTeX> file. For more details see <hlink|Compiling a
   bibliography|/usr/local/share/TeXmacs/doc/main/links/man-bibliography.en.tm>.
 
-  The only small thing <name|Zotexmacs> does is a the moment you want place a
-  call to a bibliographic item in a <TeXmacs> document: instead of using
-  <menu|Insert|Link|Citation> and typing the key(s) of the item(s) you want
-  to cite, you should
+  The only small thing <name|Zotexmacs> does is to assist when you want place
+  a reference to a bibliographic item (<em|i.e.> a <inactive|<cite|>> tag) in
+  a <TeXmacs> document: instead of using <menu|Insert|Link|Citation> and
+  typing the key(s) of the item(s) you want to cite, you should
 
   <\itemize-minus>
     <item>switch to the <name|Zotero> window (or display the <name|Zotero>
@@ -91,10 +91,17 @@
 
     <item>select the item(s) you want to cite
 
-    <item>click on the Zotexmacs button (or right-click and select cite in
-    Texmacs)
+    <item>click on the Zotexmacs button (or right-click and select \Pcite in
+    Texmacs\Q)
 
     <item>finally \ switch back to Texmacs' window
+
+    <item>At this point the newly inserted <inactive|<cite|>> tag may show up
+    as <cite|>. In that case, it may be simply a matter of doing
+    <menu|Document|Update|Bibliography>. You may also further need to refresh
+    the content of the <BibTeX> file itself in case the cited document was
+    recently added to the Zotero database (see below about the
+    <menu|automatic export> feature of <name|Better BibTeX>).
   </itemize-minus>
 
   <section*|Recommended <name|Zotero> settings>
