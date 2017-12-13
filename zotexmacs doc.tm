@@ -25,36 +25,38 @@
 
   <section*|Installation>
 
-  We assume Zotero (Firefox plugin or Standalone version for use with Chrome
-  or Safari) is already installed on your system. If not, visit Zotero
+  We assume Zotero is already installed on your system. If not, visit Zotero
   website and install it.
 
   <paragraph|Getting Zotexmacs>
 
-  The <name|Zotexmacs> extension is distributed as a signed .xpi file. You
-  can get it either at <verbatim|addons.mozilla.org> or at
-  <verbatim|https://github.com/slowphil/zotexmacs/raw/master/zotexmacs-XX-signed.xpi>
-  (You can find the source there too).
+  The <name|Zotexmacs> extension is distributed as an .xpi file. Latest
+  versions (for Zotero <math|\<geqslant\>> 5) are found at
+  <verbatim|https://github.com/slowphil/zotexmacs/releases/latest> (You can
+  find the source there too). A legacy version (for Zotero 4 / Firefox
+  <math|\<leqslant\>56>) can be found at <verbatim|addons.mozilla.org> (and
+  they were signed by Mozilla).\ 
 
   <paragraph|Installing Zotexmacs>
 
   <\itemize>
-    <item>Zotero as Firefox plugin
-
-    In Firefox enter \Pabout:addons\Q in the search bar (or use the
-    <menu|Tools|Add-ons> menu), then open the popup menu under the \Pgear\Q
-    icon and select <menu|install from file...>
-
     <item>Zotero Standalone
 
     In Zotero standalone open the <menu|Tools|Add-ons> menu, then open the
     popup menu under the \Pgear\Q icon and select <menu|install from file...>
+
+    <item>Zotero 4 as Firefox (<math|\<leqslant\>56>) plugin (Legacy versions
+    as of Nov. 2017)
+
+    In Firefox enter \Pabout:addons\Q in the search bar (or use the
+    <menu|Tools|Add-ons> menu), then open the popup menu under the \Pgear\Q
+    icon and select <menu|install from file...>
   </itemize>
 
-  and navigate to the xpi file. Note that even though the extension was
-  signed by Mozilla, you may receive a warning that the identity of creator
-  of the extension cannot be confirmed. The unsigned version available on
-  <name|Github> cannot be installed on standard Firefox releases.
+  and navigate to the xpi file. Unsigned version available on <name|Github>
+  cannot be installed on standard Firefox releases, and even when the
+  extension is signed by Mozilla, you may receive a warning that the identity
+  of creator of the extension cannot be confirmed...\ 
 
   <paragraph*|Configure <TeXmacs> for working with Zotexmacs>
 
@@ -66,9 +68,9 @@
   This user's initialization file can be accessed simply from within
   <TeXmacs> by activating the <menu|Tools|Developper tools> menu and then
   using the <menu|Developer|Open my-init-texmacs.scm> menu item. Then, "paste
-  from... verbatim" (IMPORTANT: do not use plain "paste") the content of the
-  file on GitHub, save and restart <TeXmacs>. If this does not work see
-  \PTechnical details\Q, below.
+  from... verbatim" (plain "paste" also works in the most recent <TeXmacs>
+  versions) the content of the file on GitHub, save and restart <TeXmacs>. If
+  this does not work see \PTechnical details\Q, below.
 
   <section*|Using <name|Zotero> with <TeXmacs> and <name|Zotexmacs>>
 
@@ -103,6 +105,18 @@
     recently added to the Zotero database (see below about the
     <menu|automatic export> feature of <name|Better BibTeX>).
   </itemize-minus>
+
+  Tips and tricks :\ 
+
+  When a new cite tag is inserted next to a prexisting one, the cite tags are
+  merged automatically. If this is not desired, simply insert a white space
+  before inserting the new tag.
+
+  While drafting a document I find it convenient to use the
+  <verbatim|tm-abstract> bibliography style (or BibTeX's <verbatim|abstract>
+  style) because the reference call then appear as [citation_key] (instead of
+  numbers) making it easier to ensure you actually refer to the articles you
+  want.
 
   <section*|Recommended <name|Zotero> settings>
 
