@@ -28,7 +28,11 @@
 ;; if there are adjascent cite tags, merge them all        
 (define (merge-cite-tags)
   (while (tm-is? (before-cursor) 'cite)
-      (begin (traverse-left)(traverse-left)))
+    (begin 
+      (traverse-left)
+      (if (== (cDDr (path-previous (root-tree) (cursor-path)))
+              (cDDr (cursor-path)))
+          (go-to-previous))))
   (let* ((pstart (cursor-path))
          (cite+keys (list 'cite)))
     (while (tm-is? (after-cursor) 'cite)
