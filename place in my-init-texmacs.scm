@@ -27,12 +27,12 @@
   
 ;; if there are adjascent cite tags, merge them all        
 (define (merge-cite-tags)
+  (let ((ps (path-paragraph-start)))
   (while (tm-is? (before-cursor) 'cite)
-    (begin 
-      (traverse-left)
-      (if (== (cDDr (path-previous (root-tree) (cursor-path)))
-              (cDDr (cursor-path)))
-          (go-to-previous))))
+    (traverse-left)
+    (if  (path-less? ps (path-previous (root-tree) (cursor-path))) 
+          (go-to-previous))  
+      ))
   (let* ((pstart (cursor-path))
          (cite+keys (list 'cite)))
     (while (tm-is? (after-cursor) 'cite)
@@ -40,5 +40,13 @@
         (traverse-right)))
     (selection-set pstart (cursor-path))
     (clipboard-cut "nowhere")
-    (insert cite+keys)))
+    (insert cite+keys)
+    (add-undo-mark)) ;; Doesn't work??
+  )
+
+(define (path-paragraph-start)
+  (let* ((cp (cursor-path))
+         (ps (begin (go-start-paragraph) (cursor-path))))
+    (go-to-path cp)
+    ps))
   ))
