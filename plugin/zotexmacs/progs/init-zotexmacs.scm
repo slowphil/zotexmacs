@@ -1,4 +1,10 @@
-(display "running my-init-texmacs\n")
+(plugin-configure zotexmacs
+
+(:versions 0.5)
+(:require #t))
+
+(when (supports-zotexmacs?)
+(display "running init-zotexmacs\n")
 
 (define-preferences   ("zotero-server" #t noop))
 
@@ -9,7 +15,7 @@
     (import-from (server server-base)) ;; define tm-service for use below
     (with srv (client-start "localhost")
       (if (== srv -1) 
-        (begin (display "starting server\n")  ; no texmacs server was found : start it
+        (begin (display "starting server for zotexmacs\n")  ; no texmacs server was found : start it
                (server-start))
         (begin (display "found local server\n")(client-stop srv)  ; a texmacs server is already started (in another instance, for example)
         )))
@@ -50,3 +56,4 @@
     (go-to-path cp)
     ps))
   ))
+)
