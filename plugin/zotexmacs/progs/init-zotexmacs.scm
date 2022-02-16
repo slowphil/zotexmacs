@@ -6,9 +6,9 @@
 (when (supports-zotexmacs?)
 (display "running init-zotexmacs\n")
 
-(define-preferences   ("zotero-server" #t noop))
+(define-preferences   ("zotero-server" "off" noop))
 
-(if (get-preference "zotero-server")
+(if (get-boolean-preference "zotero-server")
   (begin 
 ;; Do (server-start) automatically at boot-up if preferences are set so
 ;; to enable incoming connections
@@ -56,4 +56,20 @@
     (go-to-path cp)
     ps))
   ))
+)
+
+(define (set-zotexmacs on?)
+  (set-boolean-preference "zotero-server" on?)
+  )
+  
+(tm-widget (zotexmacs-preferences-widget)
+  ======
+  (aligned
+    (item (text "Activate Zotexmacs plugin (listen to Zotero)")           
+            (toggle (set-zotexmacs answer) (get-boolean-preference "zotero-server")))
+            )
+  ======
+  (centered
+    (explicit-buttons ("Help" (load-help-buffer "zotexmacs"))))
+
 )
