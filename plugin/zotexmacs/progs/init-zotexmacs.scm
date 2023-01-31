@@ -1,3 +1,21 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; MODULE      : zotexmacs.scm
+;; DESCRIPTION : plugin for working with Zotero, the bibliographics database manager 
+;; COPYRIGHT   : (C) 2023  Philippe Joyez
+;;
+;; This software falls under the GNU general public license version 3 or later.
+;; It comes WITHOUT ANY WARRANTY WHATSOEVER. For details, see the file LICENSE
+;; in the root directory or <http://www.gnu.org/licenses/gpl-3.0.html>.
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Zotexmacs is a plugin that eases referencing articles in TeXmacs when your
+;; bibliographic database is handled by Zotero.
+;; This part is the "server". For it to work, one also needs to install an extension in
+;; Zotero (zotexmacs-XX.xpi), that will act as the "client" part.
+;; See https://github.com/slowphil/zotexmacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (plugin-configure zotexmacs
 
 (:versions 0.5)
@@ -6,7 +24,9 @@
 (when (supports-zotexmacs?)
 (display "running init-zotexmacs\n")
 
-(define-preferences   ("zotero-server" "off" noop))
+;(define-preferences   ("zotero-server" "off" noop)) ; Dont! this actually prevents initializing the pref to off and toggling it afterwards.
+(if (not (cpp-has-preference? "zotero-server")) (set-preference "zotero-server" "off")) ; this is OK
+;(display* "zotero server on? " (get-boolean-preference "zotero-server") "\n")
 
 (if (get-boolean-preference "zotero-server")
   (begin 
@@ -56,13 +76,17 @@
     (go-to-path cp)
     ps))
   ))
-)
+
 
 (define (set-zotexmacs on?)
   (set-boolean-preference "zotero-server" on?)
   )
+
+;;;;;;;;;;;;
+;; settings widget and preferences
+;;;;;;;;;;;;
   
-(tm-widget (zotexmacs-preferences-widget)
+(tm-widget (zotexmacs-preferences-widget . cmd)
   ======
   (aligned
     (item (text "Activate Zotexmacs plugin (listen to Zotero)")           
@@ -71,5 +95,28 @@
   ======
   (centered
     (explicit-buttons ("Help" (load-help-buffer "zotexmacs"))))
-
 )
+
+(if (not (defined? 'plugins-with-pref-widget)) ;see https://savannah.gnu.org/patch/?10177
+;; no preference tab widgets for plugins: setup a menu in the tools menu
+  (begin 
+    (tm-define (open-zotexmacs-widget)
+      (:interactive #t)
+        (dialogue-window zotexmacs-preferences-widget noop "Zotexmacs plugin settings"))
+
+    (tm-menu (zotexmacs-menu)
+      (if (use-popups?) 
+        ("Zotexmacs plugin" (open-zotexmacs-widget)))
+      (if (use-menus?)
+       (-> "Zotexmacs plugin"  
+         ((check "server mode" "v" (get-boolean-preference "zotero-server"))
+          (toggle-preference "zotero-server"))
+         ("Help" (load-help-buffer "zotexmacs")))))
+     
+    (delayed (:idle 2000)
+      (tm-menu (tools-menu)
+        (former)
+        ---
+        (link zotexmacs-menu))
+      ))
+))
