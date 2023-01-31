@@ -108,9 +108,11 @@
       (if (use-popups?) 
         ("Zotexmacs plugin" (open-zotexmacs-widget)))
       (if (use-menus?)
-       (-> "Zotexmacs plugin"  
-         ((check "server mode" "v" (get-boolean-preference "zotero-server"))
-          (toggle-preference "zotero-server"))
+       (-> "Zotexmacs plugin"
+         (if (get-boolean-preference "zotero-server")
+           ("active (deactivate at next start)" (toggle-preference "zotero-server")))
+         (if (not (get-boolean-preference "zotero-server"))
+           ("activate at next start" (toggle-preference "zotero-server")))
          ("Help" (load-help-buffer "zotexmacs")))))
      
     (delayed (:idle 2000)
