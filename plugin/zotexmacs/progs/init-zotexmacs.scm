@@ -89,7 +89,7 @@
 (tm-widget (zotexmacs-preferences-widget . cmd)
   ======
   (aligned
-    (item (text "Activate Zotexmacs plugin (listen to Zotero)")           
+    (item (text "Activate Zotexmacs plugin at next start (listen to Zotero)")           
             (toggle (set-zotexmacs answer) (get-boolean-preference "zotero-server")))
             )
   ======
