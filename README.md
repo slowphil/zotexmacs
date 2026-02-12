@@ -8,6 +8,8 @@ Zotexmacs works on any OS. You'll need both [Texmacs](http://www.texmacs.org) an
 
 Zotexmacs 0.5 works with Zotero ⩾ 5.0.
 
+The latest version of this plugin works with TeXmacs svn revisions >= 15270 (Feb. 2026). If you currently use an older version of TeXmacs, you must use [this earlier version of the plugin](https://github.com/slowphil/zotexmacs/tree/f995a46e65de59dd701dacda0e666e47804da3d6)
+
 # Short doc 
 Install the released ["zotexmacs-XX.xpi"](https://github.com/slowphil/zotexmacs/releases/latest) file in Zotero standalone and (merge-)copy the `plugin` folder in your `$TEXMACS_HOME_PATH` (your user's Texmacs settings folder whose exact location depends on your OS - see "More doc"). After restarting both Zotero and TeXmacs (and doing Tool→Update→Plugins), Zotexmacs should work.
 
