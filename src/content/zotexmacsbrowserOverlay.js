@@ -2,7 +2,7 @@
 //
 // MODULE      : Zotexmacs
 // DESCRIPTION : Extension enabling Zotero to interact with GNU TeXmacs
-// COPYRIGHT   : (C) 2016-2017 Philippe Joyez
+// COPYRIGHT   : (C) 2016-2024 Philippe Joyez
 //
 // This software falls under the GNU general public license version 3 or later.
 // It comes WITHOUT ANY WARRANTY WHATSOEVER. For details, see the file LICENSE
@@ -14,7 +14,9 @@
 
 Zotero.zotexmacs = {
 
-	wm : Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator),
+	// In Zotero 7, Services is available globally in the bootstrap scope.
+	// We use a getter so it's resolved at call time, not at object-literal parse time.
+	get wm() { return Services.wm; },
 	os: null,
 	
 	tm_transport : null,
@@ -28,63 +30,61 @@ Zotero.zotexmacs = {
 	
 
 
-	init : function() {	
-		if (Zotero.version.split('.')[0] < 5) {
-			var win = this.wm.getMostRecentWindow("navigator:browser");
-			win.alert('Warning: Zotemacs 0.5 is for Zotero 5 or higher. For Zotero 4, please install Zotexmacs 0.2 from https://github.com/slowphil/zotexmacs/releases/tag/v0.2');
-		  return false
+	init : function() {
+		// Plugin is now Zotero 7+ only (enforced by manifest.json strict_min_version).
+		// Non-window initialization can go here if needed in the future.
+	},
+	_sleep : function(ms) {
+    var thread = Cc["@mozilla.org/thread-manager;1"].getService().currentThread;
+    var start = new Date().getTime();
+    while ((new Date().getTime() - start) < ms) {
+        thread.processNextEvent(false); // false = non-blocking
     }
 	},
-	
+  
 	tm_connect : function (server, port) {
-	  this.tm_instream = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Components.interfaces.nsIScriptableInputStream);
-	
-	  this.tm_transport = Components.classes['@mozilla.org/network/socket-transport-service;1'].getService(Components.interfaces.nsISocketTransportService).createTransport(null, 0, server, port, null);
-	  var connect_timeout = 50;
-
-	  this.tm_outstream = this.tm_transport.openOutputStream(0, 0, 0);
-	  this.tm_InputStream = this.tm_transport.openInputStream(0, 0, 0);
-	  // Initialize
-	  this.tm_instream.init(this.tm_InputStream,"UTF-8",0,0);
-	  var start = new Date().getTime();
-	  for (var i = 0; i < 1e7; i++) { // make sure we are connected before going on (and try sending data) or timeout after connect_timeout ms
-	    if (((new Date().getTime() - start) > connect_timeout ) ||(this.tm_transport.isAlive())) {
-	      break;
-	    }}
-	  //console.log("connect end alive?" +   this.tm_transport.isAlive());
+    this.tm_instream = Cc['@mozilla.org/scriptableinputstream;1'].createInstance(Ci.nsIScriptableInputStream);
+    this.tm_transport = Cc['@mozilla.org/network/socket-transport-service;1'].getService(Ci.nsISocketTransportService).createTransport([], server, port, null, null);
+    this.tm_outstream = this.tm_transport.openOutputStream(0, 0, 0);
+    this.tm_InputStream = this.tm_transport.openInputStream(0, 0, 0);
+    this.tm_instream.init(this.tm_InputStream, "UTF-8", 0, 0);
+    var start = new Date().getTime();
+    while (!this.tm_transport.isAlive() && (new Date().getTime() - start) < 50) {
+      this._sleep(5);
+    }
+	  Zotero.debug("connect end alive?" +   this.tm_transport.isAlive());
 	},
 
-	tm_read : function (){
-		try{
-			// first, poll for available data or timeout after 500 ms
-			var start = new Date().getTime();
-			for (var i = 0; i < 1e7; i++) { 
-				if (((new Date().getTime() - start) > 2500 ) ||(this.tm_instream.available()>0)) {
-					break;
-					}
-				}
-			//console.log("read available:"+ this.tm_instream.available());
-			
-			if (this.tm_instream.available() > 0 ) {
-				var data = this.tm_instream.read(2048);
-				// console.log("read data:" +   data);
-				var answer = /client-remote-(error|result) (?:[0-9]+) (.*)\)\)/.exec(data)[2];
-				// console.log("answer:" +   answer);
-				return this.unquote(answer)}
-			else {
-				return false} //timed out 
-		}
-		catch (x) {
-			console.log("READ ERROR:" +   x);
-			return false;
-			}
-	},
+tm_read : function (){
+    try{
+        var start = new Date().getTime();
+        while (this.tm_instream.available() === 0) {
+            if ((new Date().getTime() - start) > 2500) break;
+            this._sleep(20);
+        }
+        Zotero.debug("Zotexmacs read available:"+ this.tm_instream.available());
+        if (this.tm_instream.available() > 0 ) {
+            var data = this.tm_instream.read(2048);
+            Zotero.debug("Zotexmacs read data:" +   data);
+            var answer = /client-remote-(error|result) (?:[0-9]+) (.*)\)\)/.exec(data)[2];
+            Zotero.debug("Zotexmacs answer:" +   answer);
+            return this.unquote(answer);
+        }
+        else {
+            return false; // timed out
+        }
+    }
+    catch (x) {
+        Zotero.debug("Zotexmacs READ ERROR: " + x);
+        return false;
+    }
+},
 
 	tm_send : function (data) {
 		// Send data
-		//console.log("send alive?" +   this.tm_transport.isAlive());
+		//Zotero.debug("send alive?" +   this.tm_transport.isAlive());
 		var outData = String(data.length)+  "\n" + data + "\n" ;
-		//console.log("sending:" + outData);
+		//Zotero.debug("sending:" + outData);
 		this.tm_outstream.write(outData, outData.length);
 	},
     
@@ -95,12 +95,11 @@ Zotero.zotexmacs = {
     this.tm_InputStream.close();
     // make sure we are actually disconnected before going on
     var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) { // wait for data or timeout after 500 ms
-      if (((new Date().getTime() - start) > 500 ) || !(this.tm_transport.isAlive())) {
-        this.tm_connected=false;
-        break;}
+    while (this.tm_transport.isAlive() && (new Date().getTime() - start) < 500) {
+      this._sleep(20);
     }
-    if (this.tm_transport.isAlive()) {console.log("NOT DISCONNECTED!!!!")}
+    this.tm_connected = false;
+    if (this.tm_transport.isAlive()) {Zotero.debug("NOT DISCONNECTED!!!!")}
   },
   
   tm_write_and_read_answer : function (data) {
@@ -115,12 +114,12 @@ Zotero.zotexmacs = {
 			if (resp == "ready") 
 				{return true}
 			else {
-				console.log("can't login"); this.tm_close();
+				Zotero.debug("can't login"); this.tm_close();
 		        return false
 		        }
 		    }
 		else {
-			console.log("can't connect");
+			Zotero.debug("can't connect");
 			this.tm_close();
 			return false
 			}
@@ -164,8 +163,8 @@ Zotero.zotexmacs = {
 			if (this.fails<this.maxfails) {this.fails=0}
 			else {
 				// connect/login failed repeatedly
-    		var win = this.wm.getMostRecentWindow("navigator:browser");
-				win.alert("SERVER ERROR:\n" + "cannot connect with TeXmacs, or cannot login\n"+"try restarting TeXmacs or check config.");
+				var win = this.wm.getMostRecentWindow("navigator:browser");
+				win.alert("SERVER ERROR:\n" + "cannot connect with TeXmacs, or cannot login\n" + "try restarting TeXmacs or check config.");
 				this.tm_close();
 				return false
 				}
@@ -192,7 +191,7 @@ Zotero.zotexmacs = {
 		//Zotero.debug("ask_texmacs args :"+arg);
 		repl = this.tm_write_and_read_answer("(0 ("+cmd+" "+arg+"))");
 		
-		//console.log("reply :"+repl);
+		//Zotero.debug("reply :"+repl);
 		
 		// clean up connection if required
 		if (!(this.keep_connected)) {this.tm_close()};
@@ -207,59 +206,52 @@ Zotero.zotexmacs = {
 	},
 
 
-	checkAndCite : function() {
+	checkAndCite : async function() {
 		// insert "cite" tag in texmacs corresponding to the currently selected items
 		var win = this.wm.getMostRecentWindow("navigator:browser");
 		var zitems = win.ZoteroPane.getSelectedItems();
 		if (!zitems.length) {
 			win.alert("Please select at least one citation.");
 			return;
-		};
-    this.item_keys(zitems).then(function(keys) {
-      this.fails=0;
-      Zotero.debug("before ask_texmacs");
-      var res = Zotero.zotexmacs.ask_texmacs("remote-cite", keys);
-//      Zotero.debug("ask_texmacs done");
-    });
-
+		}
+		this.fails = 0;
+		var keys = await this.item_keys(zitems);
+		Zotero.debug("before ask_texmacs");
+		var res = Zotero.zotexmacs.ask_texmacs("remote-cite", keys);
 	},
 
-  item_keys : Zotero.Promise.coroutine(function* (zitems) {	
-    var keys = [];
-    for ( var i = 0; i < zitems.length; i++) {
-      try {
-        keys[i] = Zotero.BetterBibTeX.KeyManager.get(zitems[i].id, 'on-export').citekey
-      }
-      catch (x) {
-        // Zotero.debug("catched :",x);
-        // BetterBibTeX likely not installed : use zotero's default key scheme
-        // but no simple method to call to get the key (maybe in Zotero 5.1?)
-        // we perform the bibtex export and extract the key in it
-        var translation = new Zotero.Translate.Export;
-        translation.setTranslator("9cb70025-a888-4a29-a210-93ec52da40d4");//zotero's bibtex
-        try {
-          var text = yield this._promiseTranslate(translation, [zitems[i]]);
-  //        Zotero.debug("promise returned :"+ text )
-        }
-        catch (e) {
-          Zotero.debug("translate: " + e);
-        }
-        keys[i] = /@(?:.*){(.*),/.exec(text)[1];
-        }
-      }
-    return keys
-  }),
+	async item_keys(zitems) {
+		var keys = [];
+		for (var i = 0; i < zitems.length; i++) {
+			try {
+				keys[i] = Zotero.BetterBibTeX.KeyManager.get(zitems[i].id, 'on-export').citekey;
+			}
+			catch (x) {
+				// BetterBibTeX likely not installed: use Zotero's default key scheme.
+				// Export via the BibTeX translator and extract the key from the output.
+				var translation = new Zotero.Translate.Export;
+				translation.setTranslator("9cb70025-a888-4a29-a210-93ec52da40d4"); // Zotero BibTeX
+				try {
+					var text = await this._promiseTranslate(translation, [zitems[i]]);
+				}
+				catch (e) {
+					Zotero.debug("translate: " + e);
+				}
+				keys[i] = /@(?:.*){(.*),/.exec(text)[1];
+			}
+		}
+		return keys;
+	},
 
-
-  _promiseTranslate : Zotero.Promise.coroutine(function* (translate, items) {
-    var text2;
-		translate.setHandler("done", function(translate, success) {
-	  	text2 = translate.string;
+	async _promiseTranslate(translate, items) {
+		return new Promise((resolve) => {
+			translate.setHandler("done", function(translate, _success) {
+				resolve(translate.string);
 			});
-		translate.setItems(items);
-		yield translate.translate();
-    return text2;
-  }),
+			translate.setItems(items);
+			translate.translate();
+		});
+	},
 	
 };
 

@@ -6,9 +6,7 @@ With Zotexmacs you no longer have to know, guess, or look up what is the citatio
 # Requirements
 Zotexmacs works on any OS. You'll need both [Texmacs](http://www.texmacs.org) and [Zotero](https://www.zotero.org/) already installed. 
 
-Zotexmacs 0.5 works with Zotero ⩾ 5.0.
-
-The latest version of this plugin works with TeXmacs svn revisions >= 15270 (Feb. 2026). If you currently use an older version of TeXmacs, you must use [this earlier version of the plugin](https://github.com/slowphil/zotexmacs/tree/f995a46e65de59dd701dacda0e666e47804da3d6)
+Zotexmacs 0.6 works with Zotero ⩾ 9.0 (Likely works with v8, but untested) and TeXmacs ⩾ 1.2.5 (or at least svn revisions >= 15270 in Feb. 2026)
 
 # Short doc 
 Install the released ["zotexmacs-XX.xpi"](https://github.com/slowphil/zotexmacs/releases/latest) file in Zotero standalone and (merge-)copy the `plugin` folder in your `$TEXMACS_HOME_PATH` (your user's Texmacs settings folder whose exact location depends on your OS - see "More doc"). After restarting both Zotero and TeXmacs (and doing Tool→Update→Plugins), Zotexmacs should work.
