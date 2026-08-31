@@ -224,7 +224,7 @@ tm_read : function (){
     var keys = [];
     for (var i = 0; i < zitems.length; i++) {
       try {
-        keys[i] = Zotero.BetterBibTeX.KeyManager.get(zitems[i].id, 'on-export').citekey;
+        keys[i] = zitems[i].getField('citationKey') || Zotero.BetterBibTeX.KeyManager.get(zitems[i].id, 'on-export').citationKey;
       }
       catch (x) {
         // BetterBibTeX likely not installed: use Zotero's default key scheme.
